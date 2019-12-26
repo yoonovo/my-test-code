@@ -75,7 +75,7 @@ import '@testing-library/cypress/add-commands'
 
 테스트 러너에서  `signIn.spec.ts` 파일을 클릭하여 실행시켜보면 아래 이미지와 같은 화면이 나올 것이다.
 
-![cypress_03.png](/wikis/2525192400002006189/files/2642759690463682415)
+![cypress_03.png](./src/assets/images/cypress_03.png)
 
 테스트 코드를 살펴보자.
 ``` 
