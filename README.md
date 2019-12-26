@@ -128,4 +128,33 @@ describe('정상적으로 로그인 했을 경우', () => {
 })
 ```
 
+mocha/chai 문법이기에 테스트 코드를 접해본 적이 있다면 익숙하게 느껴질 것이다.
+
+위에서 사용된 Cypress 문법을 간단하게 알아보자. 
+
+- cy.visit('url'): url로 이동
+- cy.get(): 테스트 할 DOM 객체를 가져온다. DOM 객체의 태그, 클래스, 아이디로 가져올 수 있다. ([자세한 내용은 여기](https://docs.cypress.io/api/commands/get.html#Selector))
+- cy.contains('String'): 문자열과 일치하는 DOM을 가져온다. 
+- cy.get().should(): 가져온 DOM 객체의 속성이나 입력된 값을 비교 할 수 있다. ([자세한 내용은 여기](https://docs.cypress.io/api/commands/should.html#Arguments))
+- cy.get().click(): 가져온 DOM 객체에 클릭 이벤트를 발생시킨다.
+
+이외에 나머지는 Cypress 공식 홈페이지에 들어가면 가이드와 설명이 잘되있으니 테스트 코드를 작성할 때 참고 바란다.
+
+### Data-TestId
+위에서는 cy.get()으로 태그, 클래스, 아이디로 DOM을 가져왔다.
+하지만 만약 cy.get()으로 가져온 DOM의 태그나 클래스, 아이디가 수정된다면 위의 테스트 코드는 실패 할 것이다. 클래스 하나 수정할 때마다 테스트 코드를 수정하기엔 비용이 과도하다. 이럴 때를 위해 우리는 `@testing-library/cypress`라는 Cypress 라이브러리를 하나 설치 했다.
+
+이 라이브러리는 `data-testId`라는 테스트 전용 아이디를 제공하여 이 아이디로 DOM을 가져올 수 있게 한다. 
+
+- 사용법
+테스트를 하기위해 가져오고 싶은 DOM 객체 태그에 아래와 같이 추가한다. 
+```
+<p data-testId="hello">반갑습니다.</p>
+```
+그리고는 테스트 코드를 작성할 때 `cy.findByTestId()`로 DOM을 가져오면 된다.
+```
+cy.findByTestId("hello")
+```
+이런 방식으로 테스트코드를 작성하면 DOM의 클래스나 태그가 바뀌어도 테스트는 실패하지 않는다.
+
 ### [Cypress 공식 홈페이지](https://www.cypress.io/)
