@@ -2,7 +2,7 @@
   <form [formGroup]="signInForm">
     <div class="login-flex-box">
       <input type="text" class="id-input" placeholder="아이디" formControlName="id" [ngClass]="{ 'red-border': !signInForm.controls.id.value }">
-      <input type="text" class="pw-input" placeholder="비밀번호" formControlName="pw" [ngClass]="{ 'red-border': !signInForm.controls.pw.value }">
+      <input type="password" class="pw-input" placeholder="비밀번호" formControlName="pw" [ngClass]="{ 'red-border': !signInForm.controls.pw.value }">
       <button class="login-btn" (click)="login()">로그인</button>
     </div>
   </form>

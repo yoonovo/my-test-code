@@ -21,7 +21,7 @@ export class AppComponent {
 
   login(){
     if (!this.signInForm.controls.id.value || !this.signInForm.controls.pw.value) {
-      alert('필수값이 누락되었습니다.');
+      alert('아이디 또는 비밀번호를 확인해 주세요.');
       return;
     }
 

@@ -70,79 +70,62 @@ import '@testing-library/cypress/add-commands'
 ```
 
 ## 테스트 코드 작성
-- ### .Html
-``` html
-<div id="signIn">
-  <form [formGroup]="signInForm">
-    <div class="login-flex-box">
-      <input type="text" class="id-input" placeholder="아이디" formControlName="id" [ngClass]="{ 'red-border': !signInForm.controls.id.value }">
-      <input type="text" class="pw-input" placeholder="비밀번호" formControlName="pw" [ngClass]="{ 'red-border': !signInForm.controls.pw.value }">
-      <button class="login-btn" (click)="login()">로그인</button>
-    </div>
-  </form>
-</div>
-```
 
-- ### .Scss
-``` scss
-.login-flex-box {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  background-color: lightgray;
-  padding: 10px;
-}
+- 예제 프로젝트 https://github.com/yoonovo/my-test-code
 
-.id-input,
-.pw-input {
-  height: 30px;
-  margin-bottom: 10px;
-  padding-left: 10px;
-}
+테스트 러너에서  `signIn.spec.ts` 파일을 클릭하여 실행시켜보면 아래 이미지와 같은 화면이 나올 것이다.
 
-.login-btn {
-  height: 50px;
-  background-color: black;
-  border: 1px solid black;
-  color: white;
-  cursor: pointer;
-}
+![cypress_03.png](/wikis/2525192400002006189/files/2642759690463682415)
 
-.red-border {
-  border: 1px solid red;
-}
-```
-- ### .Ts
-``` typescript
-import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+테스트 코드를 살펴보자.
+``` 
+describe('비정상적으로 로그인 했을 경우', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:4200')
+  })
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  it('아이디와 비밀번호 둘 다 미입력 상태에서 로그인 버튼을 눌렀을 때 "아이디 또는 비밀번호를 확인해 주세요."라는 알럿창이 떠야한다.', () => {
+    cy.get('.id-input').should('be.empty').should('have.css', 'border', '1px solid rgb(255, 0, 0)')
+    cy.get('.pw-input').should('be.empty').should('have.css', 'border', '1px solid rgb(255, 0, 0)')
+
+    cy.contains('로그인').click()
+
+    const stub = cy.stub()
+    cy.on('window:alert', stub)
+    cy.contains('로그인').click().should(() => {
+      expect(stub.getCall(0)).to.be.calledWith('아이디 또는 비밀번호를 확인해 주세요.')      
+    })
+  })
+
+  it('비밀번호만 미입력 상태에서 로그인 버튼을 눌렀을 때 "아이디 또는 비밀번호를 확인해 주세요."라는 알럿창이 떠야한다.', () => {
+    cy.get('.id-input').type('yoonovo').should('have.css', 'border', '1px solid rgb(0, 0, 0)')
+    cy.get('.pw-input').should('be.empty').should('have.css', 'border', '1px solid rgb(255, 0, 0)')
+
+    cy.contains('로그인').click()
+    const stub = cy.stub()
+    cy.on('window:alert', stub)
+    cy.contains('로그인').click().should(() => {
+      expect(stub.getCall(0)).to.be.calledWith('아이디 또는 비밀번호를 확인해 주세요.')      
+    })
+  })
 })
-export class AppComponent {
-  public signInForm: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {}
+describe('정상적으로 로그인 했을 경우', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:4200')
+  })
+  it('아이디와 비밀번호를 입력한 뒤 로그인 버튼을 눌렀을때 "로그인 되었습니다."라는 알럿창이 떠야한다.', () => {
+    cy.get('.id-input').type('yoonovo').should('have.css', 'border', '1px solid rgb(0, 0, 0)')
+    cy.get('.pw-input').type('yoonovo').should('have.css', 'border', '1px solid rgb(0, 0, 0)')
 
-  ngOnInit() {
-    this.signInForm = new FormGroup({
-      id: new FormControl(''), pw: new FormControl('')
-    });
-  }
-
-  login(){
-    if (!this.signInForm.controls.id.value || !this.signInForm.controls.pw.value) {
-      alert('필수값이 누락되었습니다.');
-      return;
-    }
-
-    alert('로그인 되었습니다.')
-  }
-}
+    cy.contains('로그인').click()
+    const stub = cy.stub()
+    cy.on('window:alert', stub)
+    cy.contains('로그인').click().should(() => {
+      expect(stub.getCall(0)).to.be.calledWith('로그인 되었습니다.')      
+    })
+  })
+})
 ```
+
 ### [Cypress 공식 홈페이지](https://www.cypress.io/)
