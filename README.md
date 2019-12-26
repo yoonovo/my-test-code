@@ -37,7 +37,7 @@ npm run cy:open
 처음 Cypress를 실행하면 "cypress"라는 최상위 폴더와 그 안의 하위 폴더들이 생성된다.
 또 "cypress/integration"안의 "examples" 폴더가 생성되는데 초보자를 위한 테스트 코드 예제파일들이다.
 
-![cypress_05.png](/wikis/2525192400002006189/files/2642722493167790492)
+![cypress_05.png](/assets/images/cypress_05.png)
 
 ### 테스트 러너
 테스트 러너를 자세히 살펴보자.
@@ -45,7 +45,7 @@ npm run cy:open
 테스트 러너에서 보이는 파일은 "cypress/integration"안의 저장된 파일들이다.
 "cypress/integration" 폴더 안에 `signIn.spec.ts`라는 테스트 코드 파일을 생성해보면 테스트 러너에 방금 생성한 `signIn.spec.ts` 파일이 보일 것이다.
 
-![cypress_02.png](/wikis/2525192400002006189/files/2636901343420517211)
+![cypress_02.png](/assets/images/cypress_02.png)
 
 
 ### @testing-library/cypress 설정하기
